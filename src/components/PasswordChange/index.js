@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const passwordChange = props => {
-  return (
-    <div>
+const PasswordChange = () => (
+  <div>
+    <h1>PasswordChange</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-passwordChange.propTypes = {
-
-}
-
-export default passwordChange
+export default PasswordChange;

@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const SignOut = props => {
-  return (
-    <div>
+const SignOut = () => (
+  <div>
+    <h1>SignOut</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-SignOut.propTypes = {
-
-}
-
-export default SignOut
+export default SignOut;

@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const Session = props => {
-  return (
-    <div>
+const Session = () => (
+  <div>
+    <h1>Session</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-Session.propTypes = {
-
-}
-
-export default Session
+export default Session;

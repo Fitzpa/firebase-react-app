@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const Landing = props => {
-  return (
-    <div>
+const Landing = () => (
+  <div>
+    <h1>Landing</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-Landing.propTypes = {
-
-}
-
-export default Landing
+export default Landing;

@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const Account = props => {
-  return (
-    <div>
+const Account = () => (
+  <div>
+    <h1>Account</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-Account.propTypes = {
-
-}
-
-export default Account
+export default Account;

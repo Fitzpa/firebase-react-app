@@ -1,16 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-const PasswordForget = props => {
-  return (
-    <div>
+const PasswordForget = () => (
+  <div>
+    <h1>PasswordForget</h1>
+  </div>
+);
 
-    </div>
-  )
-}
-
-PasswordForget.propTypes = {
-
-}
-
-export default PasswordForget
+export default PasswordForget;
