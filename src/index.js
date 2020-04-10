@@ -5,13 +5,17 @@ import { GlobalStyle } from './styles/global'
 import App from './components/App/index';
 import * as serviceWorker from './serviceWorker';
 
+import Firebase, { FirebaseContext } from './components/Firebase';
+
 const GlobalStyleContainer = styled(React.StrictMode)`
   ${GlobalStyle}
 `
 
 ReactDOM.render(
   <GlobalStyleContainer>
-    <App />
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App />
+    </FirebaseContext.Provider>
   </GlobalStyleContainer>,
   document.getElementById('root')
 );

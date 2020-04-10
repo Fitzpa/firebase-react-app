@@ -1,16 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import FirebaseContext from './context';
+import Firebase from './firebase';
 
-const Firebase = props => {
-  return (
-    <div>
+export default Firebase;
 
-    </div>
-  )
-}
-
-Firebase.propTypes = {
-
-}
-
-export default Firebase
+export { FirebaseContext };
