@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
@@ -109,7 +110,9 @@ const SignUpLink = () => (
 
 // Here we are granting the signup from (signUpFormBase) access to all the React Router properties by passing 'withFirebase(SignUpFormBase)' into the native higher-order component 'withRouter()'.
 // Next we are granting the signup form (SignUpFormBase) access to our Firebase instance by passing 'SignUpFormBase' into into the higher-order component 'withFirebase()', effectively wrapping out signup form in a firebase consumer.
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+
+// Here we are using the recompose, compose function to organize the higher-order components, effectively wrapping signup form with firebase context and react router properties
+const SignUpForm = compose(withRouter,withFirebase)(SignUpFormBase);
 
 export default SignUpPage;
 
