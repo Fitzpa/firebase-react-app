@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 };
 
 class PasswordForgetFormBase extends React.Component {
-  construtor(props) {
+  constructor(props) {
     super(props);
 
     this.setState = { ...INITIAL_STATE };
