@@ -1,9 +1,12 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
+import { withFirebase } from '../Firebase';
+import * as ROUTES from '../../constants/routes';
 import AuthUserContext from './context'
-import { withFirebase } from '../Firebase'
 
-const withAuth = Component => {
+const withAuth = condtion => Component => {
   class WithAuth extends React.Component {
     constructor(props) {
       super(props)
@@ -13,7 +16,9 @@ const withAuth = Component => {
 
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        authUser ? this.setState({ authUser }) : this.setState({ authUser: null })
+        if (!condtion(authUser)) {
+          this.props.history.push(ROUTES.SIGN_IN);
+        }
       })
     }
 
@@ -23,13 +28,13 @@ const withAuth = Component => {
 
     render() {
       return (
-        <AuthUserContext.Provider value={this.state.authUser}>
-          <Component {...this.props} />
-        </AuthUserContext.Provider>
+        <AuthUserContext.Consumer>
+          {authUser => condition(authUser) ? <Component {...this.props} /> : null}
+        </AuthUserContext.Consumer>
       )
     }
   }
-  return withFirebase(WithAuth)
+  return compose(withRouter, withFirebase)(WithAuth);
 }
 
 export default withAuth
