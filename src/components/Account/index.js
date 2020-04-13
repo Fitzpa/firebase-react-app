@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { AuthUserContext } from '../Session';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import { AuthUserContext, withAuth } from '../Session'
+import { withAuthorization } from '../Session';
 
 const AccountPage = () => (
   <AuthUserContext.Consumer>
-    {authUser => (
+    {(authUser) => (
       <div>
         <h1>Account: {authUser.email}</h1>
         <PasswordForgetForm />
@@ -18,6 +19,6 @@ const AccountPage = () => (
 
 // Authorization conditions
 // * AccountPage is only protected with a broad authorization rule that checks if the authUser is not null.
-const condition = authUser => !!authUser;
+const authCondition = (authUser) => !!authUser;
 
-export default withAuth(condition)(AccountPage);
+export default withAuthorization(authCondition)(AccountPage);

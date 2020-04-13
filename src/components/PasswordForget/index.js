@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
@@ -16,18 +16,18 @@ const INITIAL_STATE = {
   error: null,
 };
 
-class PasswordForgetFormBase extends React.Component {
+class PasswordForgetFormBase extends Component {
   constructor(props) {
     super(props);
 
-    this.setState = { ...INITIAL_STATE };
+    this.state = { ...INITIAL_STATE };
   }
 
-  onSumbit = (event) => {
+  onSubmit = (event) => {
     const { email } = this.state;
 
     this.props.firebase
-      .doResetPassword(email)
+      .doPasswordReset(email)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
       })
@@ -35,24 +35,26 @@ class PasswordForgetFormBase extends React.Component {
         this.setState({ error });
       });
 
-    event.prevent.default();
+    event.preventDefault();
   };
 
   onChange = (event) => {
-    this.setState = { [event.target.name]: event.target.value };
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   render() {
     const { email, error } = this.state;
+
     const isInvalid = email === '';
+
     return (
-      <form onSubmit={this.onSumbit}>
+      <form onSubmit={this.onSubmit}>
         <input
           name="email"
           value={this.state.email}
           onChange={this.onChange}
           type="text"
-          placeholder="Email"
+          placeholder="Email Address"
         />
         <button disabled={isInvalid} type="submit">
           Reset My Password
@@ -64,16 +66,14 @@ class PasswordForgetFormBase extends React.Component {
   }
 }
 
-const PasswordForgetLink = () => {
-  return (
-    <p>
-      <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
-    </p>
-  );
-};
+const PasswordForgetLink = () => (
+  <p>
+    <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
+  </p>
+);
 
 export default PasswordForgetPage;
 
 const PasswordForgetForm = withFirebase(PasswordForgetFormBase);
 
-export { PasswordForgetLink, PasswordForgetForm };
+export { PasswordForgetForm, PasswordForgetLink };

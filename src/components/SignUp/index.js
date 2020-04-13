@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 
 const SignUpPage = () => (
   <div>
@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  isAdmin: false,
   error: null,
 };
 
@@ -27,27 +28,46 @@ class SignUpFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+  onSubmit = (event) => {
+    const { username, email, passwordOne, isAdmin } = this.state;
+    const roles = [];
+
+    if (isAdmin) {
+      roles.push(ROLES.ADMIN);
+    }
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-        // Create a user in your Firebase Realtime Database
-        return this.props.firebase.user(authUser.user.uid).set({username, email});
-      }).then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
+      .then((authUser) => {
+        // Create a user in your Firebase realtime database
+        this.props.firebase
+          .user(authUser.user.uid)
+          .set({
+            username,
+            email,
+            roles,
+          })
+          .then(() => {
+            this.setState({ ...INITIAL_STATE });
+            this.props.history.push(ROUTES.HOME);
+          })
+          .catch((error) => {
+            this.setState({ error });
+          });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error });
       });
-    // This prevents the browser from refreshing after a form submission
+
     event.preventDefault();
   };
 
-  onChange = event => {
+  onChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  onChangeCheckbox = (event) => {
+    this.setState({ [event.target.name]: event.target.checked });
   };
 
   render() {
@@ -56,6 +76,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
+      isAdmin,
       error,
     } = this.state;
 
@@ -95,6 +116,15 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Confirm Password"
         />
+        <label>
+          Admin:
+          <input
+            name="isAdmin"
+            type="checkbox"
+            checked={isAdmin}
+            onChange={this.onChangeCheckbox}
+          />
+        </label>
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
@@ -115,8 +145,8 @@ const SignUpLink = () => (
 // Next we are granting the signup form (SignUpFormBase) access to our Firebase instance by passing 'SignUpFormBase' into into the higher-order component 'withFirebase()', effectively wrapping out signup form in a firebase consumer.
 
 // Here we are using the recompose, compose function to organize the higher-order components, effectively wrapping signup form with firebase context and react router properties
-const SignUpForm = compose(withRouter,withFirebase)(SignUpFormBase);
+const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
 export default SignUpPage;
 
-export { SignUpFormBase, SignUpLink };
+export { SignUpForm, SignUpLink };
