@@ -20,6 +20,10 @@ class Firebase {
 
     // Allows sign-in with google
     this.googleProvider = new app.auth.GoogleAuthProvider();
+    // Allows sign-in with facebook
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
+    // Allows sign-in with Twitter
+    this.twitterProvider = new app.auth.TwitterAuthProvider();
   }
 
   // *** Auth API ***
@@ -31,6 +35,10 @@ class Firebase {
     this.auth.signInWithEmailAndPassword(email, password);
 
   doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
+
+  doSignInWithFacebook = () => this.auth.signInWithPopup(this.facebookProvider);
+
+  doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider);
 
   doSignOut = () => this.auth.signOut();
 
